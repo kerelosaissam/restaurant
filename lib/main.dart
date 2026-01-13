@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant/logic/cubit/add_remove_cubit.dart';
 import 'package:restaurant/widgets/addremovefun.dart';
 
 void main() {
@@ -13,7 +15,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  int num = 0;
+  final countercubit = AddRemoveCubit();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -75,44 +77,43 @@ class _MainAppState extends State<MainApp> {
                         color: const Color.fromARGB(255, 231, 143, 83),
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Row(
-                        children: [
-                          Addremovefun(
-                            color: const Color.fromARGB(255, 248, 207, 168),
-                            ontap: () {
-                              setState(() {
-                                if(num>0){
-                                  num--;
-                                };
-                              });
-                            },
-                            icon: const Icon(Icons.remove),
-                            iconcolor: Color(0xFFB36D5D),
-                          ),
+                      child: BlocBuilder<AddRemoveCubit, int>(
+                        bloc: countercubit,
+                        builder: (context, counter) {
+                          return Row(
+                            children: [
+                              Addremovefun(
+                                color: const Color.fromARGB(255, 248, 207, 168),
+                                ontap: () {
+                                  countercubit.remove();
+                                },
+                                icon: const Icon(Icons.remove),
+                                iconcolor: Color(0xFFB36D5D),
+                              ),
 
-                          Expanded(
-                            child: Center(
-                              child: Text(
-                                num.toString(),
-                                style: const TextStyle(
-                                  fontSize: 22,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    counter.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 22,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Addremovefun(
-                            color: const Color(0xFFB36D5D),
-                            ontap: () {
-                              setState(() {
-                                num++;
-                              });
-                            },
-                            icon: const Icon(Icons.add),
-                            iconcolor: Colors.white,
-                          ),
-                        ],
+                              Addremovefun(
+                                color: const Color(0xFFB36D5D),
+                                ontap: () {
+                                  countercubit.add();
+                                },
+                                icon: const Icon(Icons.add),
+                                iconcolor: Colors.white,
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -148,56 +149,63 @@ class _MainAppState extends State<MainApp> {
                       height: 45,
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color:  Color.fromARGB(255, 231, 143, 83),
+                        color: Color.fromARGB(255, 231, 143, 83),
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Center(child: Text("Add To Cart",
-                      style: TextStyle(color: Colors.white,fontWeight:FontWeight.bold),
-                      )),
-                      )
+                      child: Center(
+                        child: Text(
+                          "Add To Cart",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-                SizedBox(height: 10,),
-                Divider(color:Color.fromARGB(255, 231, 143, 83) ,
-                thickness: 2,
-                ),
-                SizedBox(height: 10,),
+                SizedBox(height: 10),
+                Divider(color: Color.fromARGB(255, 231, 143, 83), thickness: 2),
+                SizedBox(height: 10),
                 Container(
                   width: double.infinity,
                   height: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.orange[300]
-                  ),
+                  decoration: BoxDecoration(color: Colors.orange[300]),
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Row(
-                      mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Review",
-                            style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromARGB(255, 153, 88, 73),
-                    ),
+                            Text(
+                              "Review",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(255, 153, 88, 73),
+                              ),
                             ),
-                            SizedBox(height: 5,),
-                            Text("send your feedback",
-                            style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
+                            SizedBox(height: 5),
+                            Text(
+                              "send your feedback",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
                             ),
                           ],
                         ),
-                        Icon(Icons.arrow_drop_down,color:Color.fromARGB(255, 153, 88, 73) ,)
+                        Icon(
+                          Icons.arrow_drop_down,
+                          color: Color.fromARGB(255, 153, 88, 73),
+                        ),
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

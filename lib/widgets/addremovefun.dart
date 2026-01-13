@@ -5,7 +5,13 @@ class Addremovefun extends StatelessWidget {
   final VoidCallback ontap;
   final Icon icon;
   final Color iconcolor;
-  const Addremovefun({super.key, required this.color, required this.ontap, required this.icon, required this.iconcolor});
+  const Addremovefun({
+    super.key,
+    required this.color,
+    required this.ontap,
+    required this.icon,
+    required this.iconcolor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,7 @@ class Addremovefun extends StatelessWidget {
           color: color,
           borderRadius: BorderRadius.circular(40),
         ),
-        child:  Icon(icon.icon, color: iconcolor),
+        child: Icon(icon.icon, color: iconcolor),
       ),
     );
   }
